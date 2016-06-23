@@ -1,0 +1,99 @@
+﻿<Window x:Class="Power_BI_Embedded_Explorer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Power_BI_Embedded_Explorer"
+        mc:Ignorable="d"
+        Title="Power BI Embedded Explorer" Height="450" Width="780">
+  <Grid Margin="6,3">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="300" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,12,0">
+        <TextBlock Text="Workspace Collection" FontSize="12" />
+        <TextBox x:Name="WorkspaceCollection" FontSize="16" Padding="0,3" IsEnabled="{Binding IsLoading}" />
+      </StackPanel>
+
+      <StackPanel Grid.Column="1" Orientation="Vertical">
+        <TextBlock Text="Access Key" FontSize="12" />
+        <TextBox x:Name="AccessKey" FontSize="16" Padding="0,3" IsEnabled="{Binding IsLoading}" />
+      </StackPanel>
+
+      <StackPanel Grid.Column="2" Margin="12, 0, 0, 0">
+        <!-- placeholder -->
+        <TextBlock Text="" FontSize="12" />
+        <Button Content="Load workspaces" FontSize="16" Padding="6,3" Click="OnLoadButtonClicked" IsEnabled="{Binding IsLoading}" />
+      </StackPanel>
+
+    </Grid>
+
+    <Grid Grid.Row="1" Margin="0,12, 0, 6">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Column="0" Text="Workspaces: (for uploading PBIX file)" VerticalAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+          <StackPanel Margin="0,0,6,0">
+            <TextBlock Text="Dataset name"/>
+            <TextBox x:Name="DatasetName" Padding="0,3" Width="180" IsEnabled="False" />
+          </StackPanel>
+          
+          <Button x:Name="ImportButton" Content="Import PBIX file..." Padding="6,3" IsEnabled="False" Click="OnImportButtonClicked"/>
+        </StackPanel>
+      </Grid>
+
+      <ScrollViewer Grid.Row="1" Margin="0,6,0,0">
+        <ListView x:Name="WorkspaceList"
+                  ItemsSource="{Binding Workspaces}"
+                  SelectionMode="Single"
+                  SelectionChanged="WorkspaceList_SelectionChanged">
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="ID: " FontSize="16" />
+                <TextBlock Grid.Column="1" Text="{Binding WorkspaceId}" FontSize="16" />
+              </Grid>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+      </ScrollViewer>
+
+      <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <Button Content="Add workspace" Margin="0,6,0,0" Padding="6,3" IsEnabled="{Binding IsLoaded}" Click="OnAddWorkspaceButtonClicked"/>
+      </StackPanel>
+    </Grid>
+
+    <StackPanel Grid.Row="2" Orientation="Horizontal">
+      <TextBlock Text="" />
+      <TextBlock Text="{Binding Status}" />
+    </StackPanel>
+
+  </Grid>
+</Window>
