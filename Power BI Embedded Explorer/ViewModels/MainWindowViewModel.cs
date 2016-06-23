@@ -62,7 +62,7 @@
       Workspaces = new ObservableCollection<Models.Workspace>();
 
       Status = "Ready";
-      IsLoading = true;
+      IsLoading = false;
       IsLoaded = false;
     }
 
@@ -75,7 +75,7 @@
     public async Task LoadWorkspacesAsync(string workspaceCollectionName, string accessKey)
     {
       Status = "Loading...";
-      IsLoading = false;
+      IsLoading = true;
       IsLoaded = false;
 
       Workspaces.Clear();
@@ -100,7 +100,7 @@
         }
       }
 
-      IsLoading = true;
+      IsLoading = false;
     }
 
 
@@ -109,7 +109,7 @@
       string ret = null;
 
       Status = "Loading...";
-      IsLoading = false;
+      IsLoading = true;
       IsLoaded = false;
 
       var provisionToken = PowerBIToken.CreateProvisionToken(workspaceCollectionName);
@@ -123,7 +123,7 @@
         }
       }
 
-      IsLoading = true;
+      IsLoading = false;
       IsLoaded = true;
       return ret;
     }
@@ -131,7 +131,7 @@
     public async Task<Import> ImportPbixAsync(string workspaceCollectionName, string accessKey, string workspaceId, string filePath, string datasetName)
     {
       Status = "Importing...";
-      IsLoading = false;
+      IsLoading = true;
       IsLoaded = false;
 
       var devToken = PowerBIToken.CreateDevToken(workspaceCollectionName, workspaceId);
@@ -141,7 +141,7 @@
         {
           var import = await client.Imports.PostImportWithFileAsync(workspaceCollectionName, workspaceId, fileStream, datasetName);
 
-          IsLoading = true;
+          IsLoading = false;
           IsLoaded = true;
           Status = "Importing task is completed.";
           return import;

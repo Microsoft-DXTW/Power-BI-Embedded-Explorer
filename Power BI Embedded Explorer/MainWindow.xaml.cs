@@ -33,6 +33,10 @@
       else
       {
         await _viewModel.LoadWorkspacesAsync(wrkColTxt, accessKeyTxt);
+        if (_viewModel.Workspaces.Count > 0)
+        {
+          WorkspaceList.SelectedIndex = 0;
+        }
       }
     }
 
@@ -46,8 +50,6 @@
 
     private async void OnImportButtonClicked(object sender, RoutedEventArgs e)
     {
-      Debug.WriteLine(selectedWorkspace.WorkspaceId);
-
       string wrkColTxt = WorkspaceCollection.Text.Trim(),
              accessKeyTxt = AccessKey.Text.Trim();
 

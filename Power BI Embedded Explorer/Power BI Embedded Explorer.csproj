@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\InverseConverter.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Workspace.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

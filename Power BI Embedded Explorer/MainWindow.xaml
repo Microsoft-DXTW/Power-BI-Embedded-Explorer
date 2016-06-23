@@ -22,18 +22,18 @@
 
       <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,12,0">
         <TextBlock Text="Workspace Collection" FontSize="12" />
-        <TextBox x:Name="WorkspaceCollection" FontSize="16" Padding="0,3" IsEnabled="{Binding IsLoading}" />
+        <TextBox x:Name="WorkspaceCollection" FontSize="16" Padding="0,3" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseConverter}}" />
       </StackPanel>
 
       <StackPanel Grid.Column="1" Orientation="Vertical">
         <TextBlock Text="Access Key" FontSize="12" />
-        <TextBox x:Name="AccessKey" FontSize="16" Padding="0,3" IsEnabled="{Binding IsLoading}" />
+        <TextBox x:Name="AccessKey" FontSize="16" Padding="0,3" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseConverter}}" />
       </StackPanel>
 
       <StackPanel Grid.Column="2" Margin="12, 0, 0, 0">
         <!-- placeholder -->
         <TextBlock Text="" FontSize="12" />
-        <Button Content="Load workspaces" FontSize="16" Padding="6,3" Click="OnLoadButtonClicked" IsEnabled="{Binding IsLoading}" />
+        <Button Content="Load workspaces" FontSize="16" Padding="6,3" Click="OnLoadButtonClicked" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseConverter}}" />
       </StackPanel>
 
     </Grid>
@@ -56,10 +56,10 @@
         <StackPanel Orientation="Horizontal" Grid.Column="1">
           <StackPanel Margin="0,0,6,0">
             <TextBlock Text="Dataset name"/>
-            <TextBox x:Name="DatasetName" Padding="0,3" Width="180" IsEnabled="False" />
+            <TextBox x:Name="DatasetName" Padding="0,3" Width="200" IsEnabled="{Binding IsLoaded}" />
           </StackPanel>
-          
-          <Button x:Name="ImportButton" Content="Import PBIX file..." Padding="6,3" IsEnabled="False" Click="OnImportButtonClicked"/>
+
+          <Button x:Name="ImportButton" Content="Import PBIX file..." Padding="6,3" IsEnabled="{Binding IsLoaded}" Click="OnImportButtonClicked"/>
         </StackPanel>
       </Grid>
 
