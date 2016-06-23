@@ -63,7 +63,17 @@
         {
           datasetName = null;
         }
-        await _viewModel.ImportPbixAsync(wrkColTxt, accessKeyTxt, selectedWorkspace.WorkspaceId, ofd.FileName, datasetName);
+        var import = await _viewModel.ImportPbixAsync(wrkColTxt, accessKeyTxt, selectedWorkspace.WorkspaceId, ofd.FileName, datasetName);
+        string msg = "";
+        if (import.ImportState == "Succeeded")
+        {
+          msg = "The PBIX file has been imported successfully.";
+        }
+        else if (import.ImportState == "Failed")
+        {
+          msg = "The PBIX file was failed to be imported.";
+        }
+        MessageBox.Show(msg, "PBIX File Importing");
       }
 
     }

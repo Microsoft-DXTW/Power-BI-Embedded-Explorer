@@ -141,6 +141,13 @@
         {
           var import = await client.Imports.PostImportWithFileAsync(workspaceCollectionName, workspaceId, fileStream, datasetName);
 
+          while (import.ImportState != "Succeeded" && import.ImportState != "Failed")
+          {
+            import = await client.Imports.GetImportByIdAsync(workspaceCollectionName, workspaceId, import.Id);
+            Status = $"Checking import state... {import.ImportState}";
+            Thread.Sleep(1000);
+          }
+
           IsLoading = false;
           IsLoaded = true;
           Status = "Importing task is completed.";
