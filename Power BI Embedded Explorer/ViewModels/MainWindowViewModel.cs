@@ -2,14 +2,12 @@
 {
   using System.Collections.ObjectModel;
   using System.ComponentModel;
-  using Microsoft.PowerBI.Api.Beta;
-  using Models;
   using System.Threading.Tasks;
-  using Microsoft.PowerBI.Security;
-  using Microsoft.Rest;
   using System.IO;
-  using Microsoft.PowerBI.Api.Beta.Models;
   using System.Threading;
+  using Microsoft.PowerBI.Api.V1;
+  using Microsoft.PowerBI.Api.V1.Models;
+  using Microsoft.Rest;
 
   public class MainWindowViewModel : INotifyPropertyChanged
   {
@@ -80,8 +78,7 @@
 
       Workspaces.Clear();
 
-      var provisionToken = PowerBIToken.CreateProvisionToken(workspaceCollectionName);      
-      using (var client = CreateClient(provisionToken, accessKey))
+      using (var client = CreateClient(accessKey))
       {
         var response = await client.Workspaces.GetWorkspacesByCollectionNameAsync(workspaceCollectionName);
         if (response.Value != null)
@@ -112,8 +109,7 @@
       IsLoading = true;
       IsLoaded = false;
 
-      var provisionToken = PowerBIToken.CreateProvisionToken(workspaceCollectionName);
-      using (var client = CreateClient(provisionToken, accessKey))
+      using (var client = CreateClient(accessKey))
       {
         var workspace = await client.Workspaces.PostWorkspaceAsync(workspaceCollectionName);
         if (workspace != null)
@@ -134,10 +130,9 @@
       IsLoading = true;
       IsLoaded = false;
 
-      var devToken = PowerBIToken.CreateDevToken(workspaceCollectionName, workspaceId);
       using (var fileStream = File.OpenRead(filePath))
       {
-        using (var client = CreateClient(devToken, accessKey))
+        using (var client = CreateClient(accessKey))
         {
           var import = await client.Imports.PostImportWithFileAsync(workspaceCollectionName, workspaceId, fileStream, datasetName);
 
@@ -163,10 +158,9 @@
       PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    static IPowerBIClient CreateClient(PowerBIToken provisionToken, string accessKey)
+    static IPowerBIClient CreateClient(string accessKey)
     {
-      var jwt = provisionToken.Generate(accessKey);
-      var credentials = new TokenCredentials(jwt, "AppToken");
+      var credentials = new TokenCredentials(accessKey, "AppKey");
       var client = new PowerBIClient(credentials);
       client.BaseUri = new System.Uri("https://api.powerbi.com");
 
